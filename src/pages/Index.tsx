@@ -14,7 +14,7 @@ import {
   Award, Truck, ArrowRight, CheckCircle2, Star,
   ChevronLeft, Phone, Mail, MessageCircle, Send,
   Gauge, Eye, Wrench, UserCheck, Building2,
-  MapPinned,
+  MapPinned, Ticket,
 } from "lucide-react";
 
 /* ─── Types ─── */
@@ -158,6 +158,15 @@ const Index = () => {
     );
   };
 
+  const navigateToSection = (sectionId: string) => {
+    if (step !== 0) {
+      setStep(0);
+      setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* ═══ HEADER / NAVBAR ═══ */}
@@ -174,25 +183,13 @@ const Index = () => {
             </span>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-white/60">
-            <a href="#tentang" className="hover:text-white transition-colors">Tentang Kami</a>
-            <a href="#armada" className="hover:text-white transition-colors">Armada</a>
-            <a href="#rute" className="hover:text-white transition-colors">Rute</a>
+            <a href="#tentang" onClick={() => navigateToSection('tentang')} className="hover:text-white transition-colors cursor-pointer">Tentang Kami</a>
+            <a href="#armada" onClick={() => navigateToSection('armada')} className="hover:text-white transition-colors cursor-pointer">Armada</a>
+            <a href="#rute" onClick={() => navigateToSection('rute')} className="hover:text-white transition-colors cursor-pointer">Rute</a>
             <Link to="/jadwal" className="hover:text-white transition-colors">Jadwal</Link>
             <Link to="/bantuan" className="hover:text-white transition-colors">Bantuan</Link>
-            <a href="#kontak" className="hover:text-white transition-colors">Kontak</a>
-            <button
-              onClick={startBooking}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all"
-            >
-              Beli Tiket
-            </button>
+            <a href="#kontak" onClick={() => navigateToSection('kontak')} className="hover:text-white transition-colors cursor-pointer">Kontak</a>
           </nav>
-          <button
-            className="md:hidden text-white/70 hover:text-white"
-            onClick={startBooking}
-          >
-            <Bus className="w-5 h-5" />
-          </button>
         </div>
       </header>
 
@@ -207,8 +204,6 @@ const Index = () => {
                 alt="Fleet 3RHiace"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[hsl(220,15%,8%)]/90 via-[hsl(220,15%,8%)]/70 to-[hsl(220,15%,8%)]/40" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[hsl(220,15%,8%)]/60 to-transparent" />
             </div>
 
             <div className="relative container px-4 py-20 sm:py-28 lg:py-32">
@@ -317,16 +312,11 @@ const Index = () => {
                 <FadeInSection delay={0.2}>
                   <div className="relative">
                     <div className="bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden shadow-xl">
-                      <div className="aspect-[4/3] bg-gradient-to-br from-blue-50 to-blue-100/50 flex items-center justify-center">
-                        <div className="text-center">
-                          <div className="w-20 h-20 rounded-2xl bg-blue-100 border border-blue-200 flex items-center justify-center mx-auto mb-4">
-                            <Building2 className="w-10 h-10 text-blue-500" />
-                          </div>
-                          <p className="text-gray-400 text-sm font-medium">
-                            Foto Operasional 3RHiace
-                          </p>
-                        </div>
-                      </div>
+                      <img
+                        src="/image/operasional-hiace.jpg"
+                        alt="Operasional 3RHiace"
+                        className="w-full aspect-[4/3] object-cover"
+                      />
                     </div>
                     <div className="absolute -bottom-4 -right-4 w-32 h-32 border border-blue-200 rounded-2xl -z-10" />
                   </div>
@@ -856,6 +846,17 @@ const Index = () => {
       </footer>
 
       <SuccessModal open={showSuccess} onClose={handleClose} />
+
+      {/* Floating Ticket Button */}
+      <motion.button
+        onClick={startBooking}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        className="fixed bottom-6 right-6 z-50 bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full shadow-lg shadow-blue-600/30 flex items-center justify-center transition-colors"
+        aria-label="Beli Tiket"
+      >
+        <Ticket className="w-6 h-6" />
+      </motion.button>
     </div>
   );
 };
